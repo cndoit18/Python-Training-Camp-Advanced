@@ -7,7 +7,9 @@
 
 请补全下面的函数 `conv2d`。
 """
+
 import numpy as np
+
 
 def conv2d(x, kernel):
     """
@@ -31,4 +33,4 @@ def conv2d(x, kernel):
     # 5. 提取输入 x 中与当前卷积核对应的区域 (patch)。
     # 6. 计算 patch 和 kernel 的元素乘积之和 (np.sum(patch * kernel))。
     # 7. 将结果存入输出数组 out[i, j]。
-    pass 
+    pass

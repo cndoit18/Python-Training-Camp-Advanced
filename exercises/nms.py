@@ -7,7 +7,9 @@
 
 请补全下面的函数 `calculate_iou` 和 `nms`。
 """
+
 import numpy as np
+
 
 def calculate_iou(box1, box2):
     """
@@ -21,10 +23,28 @@ def calculate_iou(box1, box2):
     Return:
         float: IoU 值。
     """
-    # 请在此处编写代码
-    # (与 iou.py 中的练习相同，可以复用代码或导入)
     # 提示：计算交集面积和并集面积，然后相除。
-    pass
+    # 请在此处编写代码
+    # 提示：
+    # 1. 确定两个框相交区域的左上角坐标 (x_left, y_top)。
+    x_left = max(box1[0], box2[0])
+    y_top = max(box1[1], box2[1])
+    # 2. 确定两个框相交区域的右下角坐标 (x_right, y_bottom)。
+    x_right = min(box1[2], box2[2])
+    y_bottom = min(box1[3], box2[3])
+    # 3. 计算相交区域的面积 intersection_area。
+    #    注意处理不相交的情况 (宽度或高度 <= 0)。
+    intersection_area = max(0, x_right - x_left) * max(0, y_bottom - y_top)
+    # 4. 计算 box1 的面积 box1_area。
+    box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])
+    # 5. 计算 box2 的面积 box2_area。
+    box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])
+    # 6. 计算并集面积 union_area = box1_area + box2_area - intersection_area。
+    union_area = box1_area + box2_area - intersection_area
+    # 7. 计算 IoU = intersection_area / union_area。
+    #    注意处理 union_area 为 0 的情况 (除零错误)。
+    return intersection_area / union_area if union_area else 0
+
 
 def nms(boxes, scores, iou_threshold):
     """
@@ -52,4 +72,4 @@ def nms(boxes, scores, iou_threshold):
     #    c. 找到 IoU 小于等于 iou_threshold 的索引 inds。
     #    d. 更新 order，只保留那些 IoU <= threshold 的框的索引 (order = order[inds + 1])。
     # 7. 返回 keep 列表。
-    pass 
+    pass
