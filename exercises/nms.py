@@ -61,15 +61,28 @@ def nms(boxes, scores, iou_threshold):
     # 请在此处编写代码
     # 提示：
     # 1. 如果 boxes 为空，直接返回空列表。
+    if len(boxes) == 0:
+        return []
     # 2. 将 boxes 和 scores 转换为 NumPy 数组。
     # 3. 计算所有边界框的面积 areas。
     # 4. 根据 scores 对边界框索引进行降序排序 (order = np.argsort(scores)[::-1])。
+    order = np.argsort(scores)[::-1]
     # 5. 初始化一个空列表 keep 用于存储保留的索引。
+    keep = []
     # 6. 当 order 列表不为空时循环：
+    while len(order) > 0:
+        i = order[0]
+        keep.append(i)
+        indexs = (
+            x
+            for x in range(1, len(order))
+            if calculate_iou(boxes[i], boxes[x]) <= iou_threshold
+        )
+        order = [order[x] for x in indexs]
     #    a. 取出 order 中的第一个索引 i (当前分数最高的框)，加入 keep。
     #    b. 计算框 i 与 order 中剩余所有框的 IoU。
     #       (需要计算交集区域坐标 xx1, yy1, xx2, yy2 和交集面积 intersection)
     #    c. 找到 IoU 小于等于 iou_threshold 的索引 inds。
     #    d. 更新 order，只保留那些 IoU <= threshold 的框的索引 (order = order[inds + 1])。
     # 7. 返回 keep 列表。
-    pass
+    return keep

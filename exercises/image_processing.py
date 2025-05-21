@@ -7,8 +7,10 @@
 
 请补全下面的函数 `image_processing_pipeline`。
 """
+
 import cv2
 import numpy as np
+
 
 def image_processing_pipeline(image_path):
     """
@@ -22,9 +24,17 @@ def image_processing_pipeline(image_path):
     # 请在此处编写代码
     # 提示：
     # 1. 使用 cv2.imread() 读取图像。
-    # 2. 检查图像是否成功读取（img is None?）。
-    # 3. 使用 cv2.cvtColor() 将图像转为灰度图 (cv2.COLOR_BGR2GRAY)。
-    # 4. 使用 cv2.GaussianBlur() 进行高斯滤波。
-    # 5. 使用 cv2.Canny() 进行边缘检测。
-    # 6. 使用 try...except 包裹代码以处理可能的异常。
-    pass 
+    try:
+        img = cv2.imread(image_path)
+        # 2. 检查图像是否成功读取（img is None?）。
+        if img is None:
+            return None
+        # 3. 使用 cv2.cvtColor() 将图像转为灰度图 (cv2.COLOR_BGR2GRAY)。
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # 4. 使用 cv2.GaussianBlur() 进行高斯滤波。
+        img_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
+        # 5. 使用 cv2.Canny() 进行边缘检测。
+        return cv2.Canny(img_blur, 100, 200)
+        # 6. 使用 try...except 包裹代码以处理可能的异常。
+    except Exception:
+        return None
